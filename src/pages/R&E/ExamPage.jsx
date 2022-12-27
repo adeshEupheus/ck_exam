@@ -1,26 +1,11 @@
 import React, { useEffect, useRef } from "react";
 import { useState } from "react";
-import Sidebar from "../../Components/Sidebar";
-
-import SwipeableTemporaryDrawer from "../../Components/Material/MaterialSidebar";
-import { Menu } from "@mui/icons-material";
-import {  useQuery } from "@tanstack/react-query";
-
-import Snackbars from "../../Components/Material/Snackbar";
-import Loader from "../../Components/Material/Loader";
-import { GetOnlineExamData } from "../../apis/fetcher/GetOnlineExamData";
-import BasicButton from "../../Components/Material/Button";
 import { Card } from "@mui/material";
-import { optionGroupUnstyledClasses, OptionUnstyled } from "@mui/base";
 import Button from "@mui/material/Button";
-import { Stack } from "@mui/system";
-
-// import logo from "../../assets/classklap_logo";
+import QuestionSidebar from "../../Components/Material/QuestionSidebar";
 let Logo =require('../../assets/classklap_logo.png');
-console.log(Logo);
-const ExamPage= () => {
-  
 
+const ExamPage= () => {
   
   useEffect(() => {
     document.title = "Exam Set Up - ClassKlap";
@@ -40,16 +25,25 @@ const ExamPage= () => {
     };
   }, []);
   const Options=["A)4","B)5","C)6","D)8"];
-  const[active,setactive]=useState([]);
-  const [isSelected,setSelected]=useState(false);
+  const[active,setactive]=useState(null);
+  const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
 
-
-  const handleClick=()=>{
-
+const handleclick=(index)=>{
+  if(index === active){
+    setactive(null)
+  } else {
+    setactive(index);
   }
+  
+  }
+  const sidebarRef = useRef();
 
-  
-  
+  const handleSidebarCollapsed = () => {
+    sidebarRef.current.openSidebar();
+    setSidebarCollapsed(true);
+  };
+
+ const show = null;
 
   return (
     <>
@@ -64,8 +58,22 @@ const ExamPage= () => {
             <div className="flex flex-col px-6 cursor-pointer py-8 items-end gap-[1px] mr-6">
               <span>Time Remaining</span>
               <span>50:00</span>
+              <Button className="!bg-blue-500 !font-semibold !text-white" 
+              onClick={handleSidebarCollapsed} >MCQs Done</Button>
+              
+            <div>
+          <QuestionSidebar
+            ref={sidebarRef}
+            sidebarCollapsed={sidebarCollapsed}
+            show={show}
+           />
+
+        </div>
             
             </div>
+           
+            
+            
           </div>
 
           <div className="relative flex flex-col w-full justify-center items-start mt-20 gap-4 ">
@@ -86,16 +94,17 @@ const ExamPage= () => {
                 <div className="grid sm:grid-cols-2 sm:grid-rows-2 grid-cols-1 gap-4">
                 {Options.map((item,index)=>{
                   // console.log(Options);
-                  // const data=[...Options];
-                  // console.log("Hello",data.index);
+                  let data=[...Options];
+                  console.log(data);
+                  
                   return(
-                    // < span className="flex flex-col">
+                  
                      
-                      <Card className={`!transition-all !mx-4 !p-4 !duration-200 !ease-linear ${active === index ? '!bg-purple-400' : "!bg-slate-100"}`} key={index} onClick={()=>setactive(index)}>{item}</Card>
+                      <Card className={`!transition-all !cursor-pointer !mx-4 !p-4 !duration-200 !ease-linear ${active === index ? '!bg-purple-400' : "!bg-slate-100"}`} key={index} onClick={()=>handleclick(index)}>{item}</Card>
                     //  <Card2 item={item}/>
                   
                   )
-                  // console.log(data);
+                  
                   })}
                  
                 </div>
