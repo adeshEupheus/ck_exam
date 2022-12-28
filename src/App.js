@@ -4,6 +4,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import OnlineExam from "./pages/R&E/OnlineExam";
 import StartExam from "./pages/R&E/StartExam";
 import ExamPage from "./pages/R&E/ExamPage";
+import PageNotFound from "./pages/R&E/PageNotFound";
 
 function App() {
   const client = new QueryClient();
@@ -18,7 +19,7 @@ function App() {
               path="/revision_and_exam/online_exam"
               element={<OnlineExam />}
             />
-            <Route path="*" element={<h1>Page Not Found ... 404</h1>} />
+            <Route path="*" element={<PageNotFound/>} />
             <Route path="/revision_and_exam/start_exam" element={<StartExam />} />
             <Route path="/revision_and_exam/exam_page" element={<ExamPage />} />
           </Routes>

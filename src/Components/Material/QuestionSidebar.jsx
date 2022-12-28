@@ -11,8 +11,13 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
+import Slide from "@mui/material/Slide";
 
+const Transition = React.forwardRef(function Transition(props, ref) {
+  return <Slide direction="up" ref={ref} {...props} />;
+}); 
 const QuestionSidebar = React.forwardRef((props, ref) => {
+
   
   let highLight = props.highLight;
   
@@ -26,6 +31,8 @@ const QuestionSidebar = React.forwardRef((props, ref) => {
       setState({ right: true });
     },
   }));
+
+  
 
   const toggleDrawer = (anchor, open) => (event) => {
     if (
@@ -48,148 +55,52 @@ const QuestionSidebar = React.forwardRef((props, ref) => {
     setDialog(false);
   }
 
+  const returnQues = () => {
+    for (let index = 0; index < 24; index++) {
+      return (
+        <div className="p-4 bg-slate-500">Q. {index + 1}</div>
+      )
+      
+    }
+  }
+ 
 
   const list = (anchor) => (
     <Box
-      className="!flex !flex-col !gap-1"
-      sx={{ width: anchor === "top" || anchor === "bottom" ? "auto" : 250 }}
+      className="!flex !flex-wrap"
+      sx={{ width: anchor === "top" || anchor === "bottom" ? "auto" : 350 }}
       role="presentation"
       onKeyDown={toggleDrawer(anchor, false)}
     >
-      <div className="flex items-center gap-3 justify-center py-4">
-        <img
-          src={logoLight}
-          className=" w-[10rem] md:w-[10rem] h-auto object-cover"
-          alt=""
-        />
-      </div>
 
-      <Link to="">
-        <aside
-          className={`px-6 mt-[1rem] py-2 hover:bg-gray-500 flex ${
-            highLight === "overview" ? "bg-gray-500" : ""
-          } rounded-md gap-4 cursor-pointer group`}
-        >
-          <div className="flex gap-2">
-            <QuizIcon
-              className={`${
-                highLight === "overview" ? "!text-gray-100" : "!text-gray-400"
-              } group-hover:!text-gray-100 !transition-all !duration-150 !ease-linear`}
-            />
-            <span
-              className={`${
-                highLight === "overview" ? "text-gray-200" : "text-gray-600"
-              } group-hover:!text-gray-100 transition-all duration-150 font-semibold ease-linear`}
-            >
-              Question-1
-            </span>
-          </div>
-        </aside>
-      </Link>
-      <Link>
-        <aside
-          className={`pl-6 pr-3 py-2 mt-[1rem] flex justify-between gap-4 ${
-            highLight === "manageOrder" ? "bg-gray-500" : ""
-          } cursor-pointer group hover:bg-gray-500 rounded-md transition-all duration-150 ease-linear`}
-        >
-          <div className="flex gap-4">
-            <QuizIcon
-              className={`${
-                highLight === "manageOrder"
-                  ? "!text-gray-100"
-                  : "!text-gray-400"
-              } group-hover:!text-gray-100 !transition-all !duration-150 !ease-linear`}
-            />
-            <span
-              className={`${
-                highLight === "manageOrder" ? "text-gray-200" : "text-gray-600"
-              } group-hover:!text-gray-100 font-semibold transition-all duration-150 ease-linear`}
-            >
-            Question-2
-            </span>
-          </div>
-         
-        </aside>
+    <div className="grid grid-cols-4 grid-rows-4 gap-2 w-full m-4 justify-items-center">
+      {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12].map((item) => {
+        return(
+        <div className="p-4 rounded-md text-gray-100 bg-slate-500 cursor-pointer">Q. {item}</div>
+
+        )
+      })}
+
+    </div>
+      
         
-      </Link>
-      <Link to="">
-        <aside
-          className={`px-6 mt-[1rem] py-2 hover:bg-gray-500 flex ${
-            highLight === "exam_setup" ? "bg-gray-500" : ""
-          } rounded-md gap-4 cursor-pointer group`}
-        >
-          <div className="flex gap-4">
-            <QuizIcon
-              className={`${
-                highLight === "exam_setup" ? "!text-gray-100" : "!text-gray-400"
-              } group-hover:!text-gray-100 !transition-all !duration-150 !ease-linear`}
-            />
-            <span
-              className={`${
-                highLight === "exam_setup" ? "text-gray-200" : "text-gray-600"
-              } group-hover:!text-gray-100 transition-all duration-150 font-semibold ease-linear`}
-            >
-              Question-3
-            </span>
-          </div>
-        </aside>
-      </Link>
-      <Link to="">
-        <aside
-          className={`px-6 mt-[1rem] py-2 hover:bg-gray-500 flex ${
-            highLight === "exam_timetable" ? "bg-gray-500" : ""
-          } rounded-md gap-4 cursor-pointer group`}
-        >
-          <div className="flex gap-4">
-            <QuizIcon
-              className={`${
-                highLight === "exam_timetable"
-                  ? "!text-gray-100"
-                  : "!text-gray-400"
-              } group-hover:!text-gray-100 !transition-all !duration-150 !ease-linear`}
-            />
-            <span
-              className={`${
-                highLight === "exam_timetable"
-                  ? "text-gray-200"
-                  : "text-gray-600"
-              } group-hover:!text-gray-100 transition-all duration-150 font-semibold ease-linear`}
-            >
-              Question-4
-            </span>
-          </div>
-        </aside>
-      </Link>
+      
+    <Button variant="contained" className="!m-4" onClick={handledialog}>Submit</Button>
+    
+    
 
-      <Link>
-        <aside
-          className={`pl-6 pr-3 py-2 mt-[1rem] flex justify-between gap-4 ${
-            highLight === "manageOrder" ? "bg-gray-500" : ""
-          } cursor-pointer group hover:bg-gray-500 rounded-md transition-all duration-150 ease-linear`}
-        >
-          <div className="flex gap-4">
-            <QuizIcon
-              className={`${
-                highLight === "manageOrder"
-                  ? "!text-gray-100"
-                  : "!text-gray-400"
-              } group-hover:!text-gray-100 !transition-all !duration-150 !ease-linear`}
-            />
-            <span
-              className={`${
-                highLight === "manageOrder" ? "text-gray-200" : "text-gray-600"
-              } group-hover:!text-gray-100 font-semibold transition-all duration-150 ease-linear`}
-            >
-            Question-5
-            </span>
-          </div>
-         
-        </aside>
-    </Link>
-    <Button variant="contained" className="!mt-4" onClick={handledialog}>Submit</Button>
-    <Dialog
+      
+    </Box>
+  );
+
+  return (
+    <div ref={sidebarRef}>
+      {/* <DialogBox /> */}
+      <Dialog
         open={dialog}
+        keepMounted
         onClose={closedialog}
+        TransitionComponent={Transition}
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
@@ -208,13 +119,6 @@ const QuestionSidebar = React.forwardRef((props, ref) => {
           </Button>
         </DialogActions>
       </Dialog>
-
-      
-    </Box>
-  );
-
-  return (
-    <div ref={sidebarRef}>
       {["right"].map((anchor) => (
         <React.Fragment key={anchor}>
           {/* <Button onClick={toggleDrawer(anchor, true)}>{anchor}</Button> */}
@@ -231,5 +135,47 @@ const QuestionSidebar = React.forwardRef((props, ref) => {
     </div>
   );
 });
+
+
+// const Transition = React.forwardRef(function Transition(props, ref) {
+//   return <Slide direction="up" ref={ref} {...props} />;
+// });
+
+function DialogBox() {
+  const [open, setOpen] = React.useState(true);
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  return (
+    <div>
+      
+      <Dialog
+        open={open}
+        TransitionComponent={Transition}
+        keepMounted
+        onClose={handleClose}
+        aria-describedby="alert-dialog-slide-description"
+      >
+        <DialogTitle>{"Use Google's location service?"}</DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-slide-description">
+            Let Google help apps determine location. This means sending anonymous
+            location data to Google, even when no apps are running.
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose}>Disagree</Button>
+          <Button onClick={handleClose}>Agree</Button>
+        </DialogActions>
+      </Dialog>
+    </div>
+  );
+}
 
 export default QuestionSidebar;

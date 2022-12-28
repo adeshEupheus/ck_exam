@@ -3,6 +3,7 @@ import { useState } from "react";
 import { Card } from "@mui/material";
 import Button from "@mui/material/Button";
 import QuestionSidebar from "../../Components/Material/QuestionSidebar";
+import { PanToolAlt, TouchApp } from "@mui/icons-material";
 let Logo =require('../../assets/classklap_logo.png');
 
 const ExamPage= () => {
@@ -88,7 +89,7 @@ const handleclick=(index)=>{
                <div className="box-border w-50 h-50 border-4 sm:p-8 px-2 py-4 m-8 border-yellow-300 rounded-lg shadow-red-400 shadow-2xl sm:m-2">
                {/* < span className="inline grid grid-cols-2 gap-4"> */}
                
-                <p>1) How many Children are swimming?</p><br></br>
+                {/* <p>1) How many Children are swimming?</p><br></br>
 
           
                 <div className="grid sm:grid-cols-2 sm:grid-rows-2 grid-cols-1 gap-4">
@@ -109,7 +110,22 @@ const handleclick=(index)=>{
                  
                 </div>
                  
+               </div> */} 
+               <h1>NOT ANSWERED</h1>
+               <div className="relative w-fit">
+                <div className="!-rotate-45 absolute top-5 -right-4">
+
+               <PanToolAlt className="!text-[3rem] !text-gray-600"/>
+                </div>
+               <Card className=" !bg-pink-600 !mb-2 !p-3 !w-fit !text-gray-200">Q.1</Card>
                </div>
+               <div className="flex flex-wrap">
+              {[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25].map((item)=>{
+                return(
+               <Card2 item={item}/>
+                )
+})}
+</div>
                <div className="mt-4 flex w-full gap-3 justify-end pr-4">
                 {/* <Stack spacing={5} direction="row" > */}
                <Button variant="contained">Previous</Button>
@@ -118,19 +134,17 @@ const handleclick=(index)=>{
 </div>
             </div>
             </div>
-          
+          </div>
     </div>
       </>
     
   );
 };
 
+
 const Card2 = ({item}) => {
-  const [s, setS] = useState(false)
   return (
-    <div onClick={() => setS(prev => !prev)} className={`px-4 py-2 ${s ? "bg-red-600" : "bg-slate-600"} text-white`}>
-      {item}
-    </div>
+  <Card variant="outlined" className="!p-2 !m-1 !bg-pink-600">Q.{item}</Card>
   )
 }
 
