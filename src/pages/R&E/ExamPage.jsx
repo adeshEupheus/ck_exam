@@ -43,8 +43,13 @@ const handleclick=(index)=>{
     sidebarRef.current.openSidebar();
     setSidebarCollapsed(true);
   };
+const show = null;
 
- const show = null;
+let arr=[];
+let i=0;
+for(i=1;i<26;i++){
+  arr.push(i);
+}
 
   return (
     <>
@@ -111,27 +116,50 @@ const handleclick=(index)=>{
                 </div>
                  
                </div> */} 
-               <h1>NOT ANSWERED</h1>
-               <div className="relative w-fit">
-                <div className="!-rotate-45 absolute top-5 -right-4">
-
-               <PanToolAlt className="!text-[3rem] !text-gray-600"/>
-                </div>
-               <Card className=" !bg-pink-600 !mb-2 !p-3 !w-fit !text-gray-200">Q.1</Card>
-               </div>
-               <div className="flex flex-wrap">
-              {[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25].map((item)=>{
+               <div>
+  
+  <h1 className="!mt-3 !font-extrabold text-lg text-pink-600"> NOT ANSWERED</h1>
+  
+  <div className="relative w-fit">
+      <PanToolAlt className="!text-[3rem] !text-gray-600 !absolute !-rotate-45 !top-7 -right-16"/>
+      
+  </div>
+  <div className="flex">
+  <Card className="!w-[3rem] !h-[3rem] !p-3 !mt-2 !bg-pink-600 !text-gray-200 mb-2">Q.1</Card>
+  <p className="m-4">Tap the question number to <b>add</b> your answers before submitting</p>
+</div>
+</div>
+               <div className="flex flex-wrap"> 
+              {arr.map((item)=>{
                 return(
                <Card2 item={item}/>
                 )
 })}
 </div>
-               <div className="mt-4 flex w-full gap-3 justify-end pr-4">
-                {/* <Stack spacing={5} direction="row" > */}
-               <Button variant="contained">Previous</Button>
-               <Button variant="contained">Next</Button>
-               {/* </Stack> */}
+
+<div>
+  
+  <h1 className="!mt-3 !font-extrabold text-lg text-green-500">ANSWERED</h1>
+  
+  <div className="relative w-fit">
+      <PanToolAlt className="!text-[3rem] !text-gray-600 !absolute !-rotate-45 !top-7 -right-16"/>
+      
+  </div>
+  <div className="flex">
+  <Card className="!w-[3rem] !h-[3rem] !p-3 !mt-2 !bg-green-500 !text-gray-200">Q.1</Card>
+  <p className="m-4">Tap the question number to <b>check</b> your answers before submitting</p>
 </div>
+</div>
+<div className="flex justify-center items-center mt-4">
+<Button variant="contained">Submit</Button>
+</div>
+               {/* <div className="mt-4 flex w-full gap-3 justify-end pr-4">
+                {/* <Stack spacing={5} direction="row" > */}
+               {/* <Button variant="contained">Previous</Button>
+               <Button variant="contained">Next</Button> */}
+               {/* </Stack> */}
+{/* </div>  */}
+
             </div>
             </div>
           </div>

@@ -2,25 +2,23 @@ import * as React from "react";
 import Box from "@mui/material/Box";
 import SwipeableDrawer from "@mui/material/SwipeableDrawer";
 import logoLight from "../../assets/classklap_logo.png";
-import QuizIcon from '@mui/icons-material/Quiz';
+import QuizIcon from "@mui/icons-material/Quiz";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@mui/material";
-import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
-import DialogTitle from '@mui/material/DialogTitle';
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogContentText from "@mui/material/DialogContentText";
+import DialogTitle from "@mui/material/DialogTitle";
 import Slide from "@mui/material/Slide";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
-}); 
+});
 const QuestionSidebar = React.forwardRef((props, ref) => {
-
-  
   let highLight = props.highLight;
-  
+
   const [state, setState] = React.useState({
     right: false,
   });
@@ -31,8 +29,6 @@ const QuestionSidebar = React.forwardRef((props, ref) => {
       setState({ right: true });
     },
   }));
-
-  
 
   const toggleDrawer = (anchor, open) => (event) => {
     if (
@@ -46,24 +42,20 @@ const QuestionSidebar = React.forwardRef((props, ref) => {
     setState({ ...state, [anchor]: open });
   };
 
-  const[dialog,setDialog]=useState(false);
+  const [dialog, setDialog] = useState(false);
 
-  const handledialog=()=>{
+  const handledialog = () => {
     setDialog(true);
-  }
-  const closedialog=()=>{
+  };
+  const closedialog = () => {
     setDialog(false);
-  }
+  };
 
   const returnQues = () => {
     for (let index = 0; index < 24; index++) {
-      return (
-        <div className="p-4 bg-slate-500">Q. {index + 1}</div>
-      )
-      
+      return <div className="p-4 bg-slate-500">Q. {index + 1}</div>;
     }
-  }
- 
+  };
 
   const list = (anchor) => (
     <Box
@@ -72,24 +64,19 @@ const QuestionSidebar = React.forwardRef((props, ref) => {
       role="presentation"
       onKeyDown={toggleDrawer(anchor, false)}
     >
+      <div className="grid grid-cols-4 grid-rows-4 gap-2 w-full m-4 justify-items-center">
+        {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12].map((item) => {
+          return (
+            <div className="p-4 rounded-md text-gray-100 bg-slate-500 cursor-pointer">
+              Q. {item}
+            </div>
+          );
+        })}
+      </div>
 
-    <div className="grid grid-cols-4 grid-rows-4 gap-2 w-full m-4 justify-items-center">
-      {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12].map((item) => {
-        return(
-        <div className="p-4 rounded-md text-gray-100 bg-slate-500 cursor-pointer">Q. {item}</div>
-
-        )
-      })}
-
-    </div>
-      
-        
-      
-    <Button variant="contained" className="!m-4" onClick={handledialog}>Submit</Button>
-    
-    
-
-      
+      <Button variant="contained" className="!m-4" onClick={handledialog}>
+        Submit
+      </Button>
     </Box>
   );
 
@@ -136,7 +123,6 @@ const QuestionSidebar = React.forwardRef((props, ref) => {
   );
 });
 
-
 // const Transition = React.forwardRef(function Transition(props, ref) {
 //   return <Slide direction="up" ref={ref} {...props} />;
 // });
@@ -154,7 +140,6 @@ function DialogBox() {
 
   return (
     <div>
-      
       <Dialog
         open={open}
         TransitionComponent={Transition}
@@ -165,8 +150,8 @@ function DialogBox() {
         <DialogTitle>{"Use Google's location service?"}</DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-slide-description">
-            Let Google help apps determine location. This means sending anonymous
-            location data to Google, even when no apps are running.
+            Let Google help apps determine location. This means sending
+            anonymous location data to Google, even when no apps are running.
           </DialogContentText>
         </DialogContent>
         <DialogActions>
