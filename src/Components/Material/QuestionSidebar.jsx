@@ -16,12 +16,16 @@ import Slide from "@mui/material/Slide";
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
+
+
 const QuestionSidebar = React.forwardRef((props, ref) => {
   let highLight = props.highLight;
 
   const [state, setState] = React.useState({
     right: false,
   });
+
+  
   const sidebarRef = React.useRef();
 
   React.useImperativeHandle(ref, () => ({
@@ -60,14 +64,14 @@ const QuestionSidebar = React.forwardRef((props, ref) => {
   const list = (anchor) => (
     <Box
       className="!flex !flex-wrap"
-      sx={{ width: anchor === "top" || anchor === "bottom" ? "auto" : 350 }}
+      sx={{ width: anchor === "top" || anchor === "bottom" ? "auto" : 250}}
       role="presentation"
       onKeyDown={toggleDrawer(anchor, false)}
     >
-      <div className="grid grid-cols-4 grid-rows-4 gap-2 w-full m-4 justify-items-center">
+      <div className="grid grid-cols-4 gap-2 w-full mx-2 mt-4 justify-items-center">
         {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12].map((item) => {
           return (
-            <div className="p-4 rounded-md text-gray-100 bg-slate-500 cursor-pointer">
+            <div className="p-1 w-full flex justify-center h-[3rem] items-center rounded-md text-gray-100 bg-slate-500 cursor-pointer">
               Q. {item}
             </div>
           );

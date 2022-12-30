@@ -47,7 +47,7 @@ const show = null;
 
 let arr=[];
 let i=0;
-for(i=1;i<26;i++){
+for(i=6;i<26;i++){
   arr.push(i);
 }
 
@@ -58,13 +58,13 @@ for(i=1;i<26;i++){
           className={`flex flex-col w-full min-h-screen bg-gray-200 relative transition-all overflow-hidden ease-linear duration-300`}
         >
           
-          <div className="w-full flex text-sm font-semibold text-gray-600 justify-between">
+          <div className="w-full flex text-sm font-semibold text-gray-600 sm:justify-between justify-around items-center">
             
-            <div><img src={Logo} width="200px" height="200px" className="p-4  sm:ml-2"/></div>
-            <div className="flex flex-col px-6 cursor-pointer py-8 items-end gap-[1px] mr-6">
+            <div className="sm:px-8"><img src={Logo} className="p-2 h-auto w-[9rem] sm:w-[17rem] sm:ml-2 sm:p-4"/></div>
+            <div className="flex flex-col px-2 sm:px-6  py-8 items-end gap-[1px] mr-2 sm:mr-6">
               <span>Time Remaining</span>
               <span>50:00</span>
-              <Button className="!bg-blue-500 !font-semibold !text-white" 
+              <Button className="!bg-blue-500 !font-semibold !text-white !mt-3" 
               onClick={handleSidebarCollapsed} >MCQs Done</Button>
               
             <div>
@@ -91,7 +91,7 @@ for(i=1;i<26;i++){
                <p className="text-slate-400 ">Question 11 of 22</p>
                <p className="text-slate-400">Reading Comprehension </p>
 
-               <div className="box-border w-50 h-50 border-4 sm:p-8 px-2 py-4 m-8 border-yellow-300 rounded-lg shadow-red-400 shadow-2xl sm:m-2">
+               <div className="box-border w-50 h-50 border-4 sm:p-8 px-2 py-4  border-yellow-300 rounded-lg shadow-red-400 shadow-2xl sm:m-2">
                {/* < span className="inline grid grid-cols-2 gap-4"> */}
                
                 {/* <p>1) How many Children are swimming?</p><br></br>
@@ -125,14 +125,14 @@ for(i=1;i<26;i++){
       
   </div>
   <div className="flex">
-  <Card className="!w-[3rem] !h-[3rem] !p-3 !mt-2 !bg-pink-600 !text-gray-200 mb-2">Q.1</Card>
+  <div className="!w-[3rem] !h-[3rem] !p-3 !m-3 !bg-pink-600 !text-gray-200 mb-2 rounded-md">Q.1</div>
   <p className="m-4">Tap the question number to <b>add</b> your answers before submitting</p>
 </div>
 </div>
                <div className="flex flex-wrap"> 
               {arr.map((item)=>{
                 return(
-               <Card2 item={item}/>
+               <Card2 item={item} bgColor={'pink'}/>
                 )
 })}
 </div>
@@ -146,8 +146,15 @@ for(i=1;i<26;i++){
       
   </div>
   <div className="flex">
-  <Card className="!w-[3rem] !h-[3rem] !p-3 !mt-2 !bg-green-500 !text-gray-200">Q.1</Card>
+  <div className="!w-[3rem] !h-[3rem] !p-3 !mt-2 !ml-3 !bg-green-500 !text-gray-200 rounded-md">Q.1</div>
   <p className="m-4">Tap the question number to <b>check</b> your answers before submitting</p>
+</div>
+<div className="flex flex-wrap mt-4"> 
+              {[1,2,3,4,5].map((item)=>{
+                return(
+               <Card2 item={item} bgColor={'green'}/>
+                )
+})}
 </div>
 </div>
 <div className="flex justify-center items-center mt-4">
@@ -170,9 +177,9 @@ for(i=1;i<26;i++){
 };
 
 
-const Card2 = ({item}) => {
+const Card2 = ({item, bgColor}) => {
   return (
-  <Card variant="outlined" className="!p-2 !m-1 !bg-pink-600">Q.{item}</Card>
+  <Card variant="outlined" className={`!p-2 !m-1 !bg-${bgColor}-600 font-medium !cursor-pointer !text-gray-100`}>Q.{item}</Card>
   )
 }
 
