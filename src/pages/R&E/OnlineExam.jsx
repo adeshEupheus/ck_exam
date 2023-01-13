@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useLayoutEffect, useRef } from "react";
 import { useState } from "react";
 import Sidebar from "../../Components/Sidebar";
 import Table from "@mui/material/Table";
@@ -19,24 +19,18 @@ import Snackbars from "../../Components/Material/Snackbar";
 import Loader from "../../Components/Material/Loader";
 import { GetOnlineExamData } from "../../apis/fetcher/GetOnlineExamData";
 import BasicButton from "../../Components/Material/Button";
+import { Link, useNavigate } from "react-router-dom";
 
 const OnlineExam = () => {
-  const [id, setId] = useState("FA1");
   const [filter, setFilter] = useState("Select");
   const [loading, setLoading] = useState(false);
   const [snackbarMsg, setSnackbarMsg] = useState("");
   const [snackbarErr, setSnackbarErr] = useState(false);
+  const navigate = useNavigate();
 
   const snackbarRef = useRef();
   const switchRefs = useRef([]);
   switchRefs.current = [];
-
-  const addToRef = (el) => {
-    // console.count(el);
-    if (el && !switchRefs.current.includes(el)) {
-      switchRefs.current.push(el);
-    }
-  };
 
   const {
     data: OnlineExamData,
@@ -60,42 +54,6 @@ const OnlineExam = () => {
 
   console.log(OnlineExamData);
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
-
-  //   const lockMutation = useMutation({
-  //     mutationFn: async (data) => {
-  //       console.log(data);
-  //       setLoading(true);
-  //       let res;
-  //       let index;
-  //       if (data.item) {
-  //         if (!data.item.locked) {
-  //           res = await LockExamSetup(data.examType, data.gradeId, data.data);
-  //         } else {
-  //           res = await UnLockExamSetup(data.examType, data.gradeId);
-  //         }
-  //       } else {
-  //         res = await LockExamSetup(data.examType, data.gradeId, data.data);
-  //       }
-  //       if (res.success) {
-  //         refetch();
-  //         setSnackbarErr(false);
-  //         if (data.item) {
-  //           index = Exam_setUpData.indexOf(data.item);
-  //         }
-  //         setSnackbarMsg(res.message.replace(/<b>/g, " ").replace("</b>", " "));
-  //         snackbarRef.current.openSnackbar();
-  //         setLoading(false);
-  //         if (data.item) {
-  //           switchRefs.current[index].toggle();
-  //         }
-  //       } else {
-  //         setSnackbarErr(true);
-  //         setSnackbarMsg(res.message.replace(/<b>/g, " ").replace("</b>", " "));
-  //         snackbarRef.current.openSnackbar();
-  //         setLoading(false);
-  //       }
-  //     },
-  //   });
 
   const show = null;
 
@@ -287,17 +245,26 @@ const OnlineExam = () => {
                               {item.formattedDateTime}
                             </h1>
                           </TableCell>
-                          <TableCell align="center">
-                            <BasicButton
-                              size={"small"}
-                              text={
-                                item.examSubmitted
-                                  ? "Exam Submitted"
-                                  : "Take Exam"
+                          {/* <TableCell align="center">
+                            <div
+                              onClick={() =>
+                                item.examActive
+                                  ? navigate("/revision_and_exam/start_exam")
+                                  : null
                               }
-                              disable={!item.examActive}
-                            />
-                          </TableCell>
+                            >
+                              <BasicButton
+                                size={"small"}
+                                text={
+                                  item.examSubmitted
+                                    ? "Exam Submitted"
+                                    : "Take Exam"
+                                }
+                                disable={!item.examActive}
+                              />
+                            </div>
+                          </TableCell> */}
+                          <TakeExamButton item={item} />
                         </TableRow>
                       ))}
                     </TableBody>
@@ -309,6 +276,64 @@ const OnlineExam = () => {
         </div>
       </div>
     </>
+  );
+};
+
+const TakeExamButton = ({ item }) => {
+  const [allow, setAllow] = useState(null);
+  console.log(allow);
+
+  useEffect(() => {
+    const changeAllow = setInterval(() => {
+      setAllow((prev) => prev - 1);
+    }, 60000);
+
+    return () => {
+      clearInterval(changeAllow);
+    };
+  }, [allow]);
+
+  useLayoutEffect(() => {
+    let currentTime = new Date().getHours() * 60 + new Date().getMinutes();
+    let given = item.examDateTime[3] * 60 + item.examDateTime[4];
+    setAllow(given - currentTime);
+  }, []);
+
+  return (
+    <TableCell align="center">
+      <Link
+        to={`${
+          !item.examSubmitted && allow <= 10 && !item.examOver
+            ? "/revision_and_exam/start_exam"
+            : ""
+        }`}
+        state={{
+          data: {
+            examTime: item.examDateTime,
+            duration: item.examDurationMinutes,
+            paperId: item.questionPaperAttemptId,
+          },
+        }}
+      >
+        <div>
+          <BasicButton
+            size={"small"}
+            text={
+              item.examSubmitted
+                ? "Exam Submitted"
+                : item.examOver
+                ? "Exam Over"
+                : "Take Exam"
+            }
+            disable={
+              !item.examSubmitted && allow <= 10 && !item.examOver
+                ? false
+                : true
+            }
+          />
+        </div>
+      </Link>
+    </TableCell>
   );
 };
 
