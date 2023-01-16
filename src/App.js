@@ -5,6 +5,7 @@ import OnlineExam from "./pages/R&E/OnlineExam";
 import StartExam from "./pages/R&E/StartExam";
 import ExamPage from "./pages/R&E/ExamPage";
 import PageNotFound from "./pages/R&E/PageNotFound";
+import PersonalRevisionSheet from "./pages/R&E/PersonalRevisionSheet";
 
 function App() {
   const client = new QueryClient();
@@ -20,8 +21,11 @@ function App() {
               element={<OnlineExam />}
             />
             <Route path="*" element={<PageNotFound/>} />
-            <Route path="/revision_and_exam/start_exam" element={<StartExam />} />
+            <Route path="/revision_and_exam/start_exam" element={<StartExam/>} />
             <Route path="/revision_and_exam/exam_page" element={<ExamPage />} />
+            <Route path="/revision_and_exam/revision_page" element={<PersonalRevisionSheet />} />
+            
+            
           </Routes>
         </BrowserRouter>
       </QueryClientProvider>
