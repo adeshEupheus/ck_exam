@@ -137,7 +137,7 @@ const OnlineExam = () => {
             ref={sidebarRef}
             sidebarCollapsed={sidebarCollapsed}
             show={show}
-            highLight={"exam_setup"}
+            highLight={""}
           />
         </div>
         <div

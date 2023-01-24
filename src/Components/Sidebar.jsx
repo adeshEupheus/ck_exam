@@ -37,7 +37,7 @@ const Sidebar = ({ sidebarCollapsed, highLight, show }) => {
             alt=""
           />
         </div>
-        <Link to="/assessment/overview">
+        <Link>
           <aside
             className={`px-6 mt-[1rem] py-2 hover:bg-gray-500 flex ${
               highLight === "live_class" ? "bg-gray-500" : ""
@@ -101,7 +101,7 @@ const Sidebar = ({ sidebarCollapsed, highLight, show }) => {
                 marsksEntry ? "h-[10vh] opacity-100 visible" : null
               } transition-all ease-linear duration-200`}
             >
-              <Link to="/marks_entry_overview">
+              <Link to="/revision_and_exam/online_exam">
                 <div
                   className={`flex items-center transition-all ease-linear duration-100 mr-8 ml-6 group `}
                 >
@@ -123,7 +123,7 @@ const Sidebar = ({ sidebarCollapsed, highLight, show }) => {
                   </h1>
                 </div>
               </Link>
-              <Link to="/sub_marks_entry">
+              <Link to="/revision_and_exam/prs">
                 <div
                   className={`flex items-center transition-all ease-linear duration-100 mr-8 ml-6 group `}
                 >
@@ -144,7 +144,7 @@ const Sidebar = ({ sidebarCollapsed, highLight, show }) => {
             </div>
           </Collapse>
         </Link>
-        <Link to="/assessment/exam_set_up">
+        <Link>
           <aside
             className={`px-6 mt-[1rem] py-2 hover:bg-gray-500 flex ${
               highLight === "download" ? "bg-gray-500" : ""
@@ -166,7 +166,7 @@ const Sidebar = ({ sidebarCollapsed, highLight, show }) => {
             </div>
           </aside>
         </Link>
-        <Link to="/assessment/exam_timetable">
+        <Link>
           <aside
             className={`px-6 mt-[1rem] py-2 hover:bg-gray-500 flex ${
               highLight === "e_learning_content" ? "bg-gray-500" : ""

@@ -79,7 +79,7 @@ const SwipeableTemporaryDrawer = React.forwardRef((props, ref) => {
         />
       </div>
 
-      <Link to="/assessment/overview">
+      <Link>
         <aside
           className={`px-6 mt-[1rem] py-2 hover:bg-gray-500 flex ${
             highLight === "overview" ? "bg-gray-500" : ""
@@ -139,7 +139,7 @@ const SwipeableTemporaryDrawer = React.forwardRef((props, ref) => {
               marsksEntry ? "h-[10vh] opacity-100 visible" : null
             } transition-all ease-linear duration-200`}
           >
-            <Link to="/marks_entry_overview">
+            <Link to="/revision_and_exam/online_exam">
               <div
                 className={`flex items-center transition-all ease-linear duration-100 mr-8 ml-6 group `}
               >
@@ -161,7 +161,7 @@ const SwipeableTemporaryDrawer = React.forwardRef((props, ref) => {
                 </h1>
               </div>
             </Link>
-            <Link to="/sub_marks_entry">
+            <Link to="/revision_and_exam/prs">
               <div
                 className={`flex items-center transition-all ease-linear duration-100 mr-8 ml-6 group `}
               >
@@ -182,7 +182,7 @@ const SwipeableTemporaryDrawer = React.forwardRef((props, ref) => {
           </div>
         </Collapse>
       </Link>
-      <Link to="/assessment/exam_set_up">
+      <Link>
         <aside
           className={`px-6 mt-[1rem] py-2 hover:bg-gray-500 flex ${
             highLight === "exam_setup" ? "bg-gray-500" : ""
@@ -204,7 +204,7 @@ const SwipeableTemporaryDrawer = React.forwardRef((props, ref) => {
           </div>
         </aside>
       </Link>
-      <Link to="/assessment/exam_timetable">
+      <Link>
         <aside
           className={`px-6 mt-[1rem] py-2 hover:bg-gray-500 flex ${
             highLight === "exam_timetable" ? "bg-gray-500" : ""
