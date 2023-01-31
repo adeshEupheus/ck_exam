@@ -37,7 +37,7 @@ const Sidebar = ({ sidebarCollapsed, highLight, show }) => {
             alt=""
           />
         </div>
-        <Link>
+        {/* <Link>
           <aside
             className={`px-6 mt-[1rem] py-2 hover:bg-gray-500 flex ${
               highLight === "live_class" ? "bg-gray-500" : ""
@@ -60,7 +60,7 @@ const Sidebar = ({ sidebarCollapsed, highLight, show }) => {
               </span>
             </div>
           </aside>
-        </Link>
+        </Link> */}
         <Link>
           <aside
             onClick={() => setMarksEntry(!marsksEntry)}
@@ -144,7 +144,7 @@ const Sidebar = ({ sidebarCollapsed, highLight, show }) => {
             </div>
           </Collapse>
         </Link>
-        <Link>
+        {/* <Link>
           <aside
             className={`px-6 mt-[1rem] py-2 hover:bg-gray-500 flex ${
               highLight === "download" ? "bg-gray-500" : ""
@@ -191,7 +191,7 @@ const Sidebar = ({ sidebarCollapsed, highLight, show }) => {
               </span>
             </div>
           </aside>
-        </Link>
+        </Link> */}
       </div>
     </div>
   );
