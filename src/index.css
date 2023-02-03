@@ -25,3 +25,10 @@
 ::-webkit-scrollbar-thumb:hover {
   background: #8d8989;
 }
+
+/* hide arrow of number input */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}

@@ -281,7 +281,7 @@ const OnlineExam = () => {
 
 const TakeExamButton = ({ item }) => {
   const [allow, setAllow] = useState(null);
-  console.log(allow);
+  // console.log(allow);
 
   useEffect(() => {
     const changeAllow = setInterval(() => {

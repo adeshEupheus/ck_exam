@@ -4,13 +4,14 @@ import RadioGroup from "@mui/material/RadioGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import FormControl from "@mui/material/FormControl";
 
-export default function RadioButtonsGroup() {
+export default function RadioButtonsGroup({ changeType }) {
   return (
     <FormControl>
       <RadioGroup
         aria-labelledby="demo-radio-buttons-group-label"
         name="radio-buttons-group"
         row
+        onChange={(e) => changeType(e.target.value)}
       >
         <FormControlLabel
           value="teacher"
