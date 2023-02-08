@@ -4,7 +4,7 @@ import SwipeableDrawer from "@mui/material/SwipeableDrawer";
 import logoLight from "../../assets/classklap_logo.png";
 import QuizIcon from "@mui/icons-material/Quiz";
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { Button } from "@mui/material";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
@@ -12,6 +12,8 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import Slide from "@mui/material/Slide";
+import { SubmitExam } from "../../apis/mutation/submitExam";
+import Loader from "../Material/Loader";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -23,8 +25,11 @@ const QuestionSidebar = React.forwardRef((props, ref) => {
   const [state, setState] = React.useState({
     right: false,
   });
+  const [loading, setLoading] = useState(false);
 
   const sidebarRef = React.useRef();
+  const { id } = useParams();
+  const navigate = useNavigate();
 
   React.useImperativeHandle(ref, () => ({
     openSidebar() {
@@ -37,6 +42,14 @@ const QuestionSidebar = React.forwardRef((props, ref) => {
       setDialog(true);
     },
   }));
+
+  const handleSubmit = async () => {
+    setLoading(true);
+    const res = await SubmitExam(id);
+    navigate("/revision_and_exam/online_exam");
+    // console.log(id);
+    setLoading(false);
+  };
 
   const toggleDrawer = (anchor, open) => (event) => {
     if (
@@ -77,6 +90,7 @@ const QuestionSidebar = React.forwardRef((props, ref) => {
       role="presentation"
       onKeyDown={toggleDrawer(anchor, false)}
     >
+      <Loader loading={loading} />
       <div className="grid grid-cols-4 gap-2 w-full mx-2 mt-4 justify-items-center">
         {props.data.map((item, index) => {
           return (
@@ -118,7 +132,7 @@ const QuestionSidebar = React.forwardRef((props, ref) => {
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button onClick={closedialog}>Yes</Button>
+          <Button onClick={handleSubmit}>Yes</Button>
           <Button onClick={closedialog} autoFocus>
             No
           </Button>

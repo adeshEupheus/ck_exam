@@ -9,13 +9,9 @@ const SelectChildCard = ({ details }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const handleSelectSchool = async (id) => {
-    // console.log(data.schoolAcademicYearId)
     const token = await SelectChild(id);
-    // console.log(token.token)
-    // console.log(token);
     Cookies.set("token", token);
     dispatch(authActions.login());
-
     navigate("/revision_and_exam/online_exam");
   };
   return (

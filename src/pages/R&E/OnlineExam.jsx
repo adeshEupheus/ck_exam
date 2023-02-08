@@ -329,6 +329,7 @@ const TakeExamButton = ({ item }) => {
               !item.examSubmitted && allow <= 10 && !item.examOver
                 ? false
                 : true
+              // item.examSubmitted || item.examOver ? false : true
             }
           />
         </div>

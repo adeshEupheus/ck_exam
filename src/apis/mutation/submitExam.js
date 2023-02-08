@@ -1,9 +1,9 @@
 import Cookies from "js-cookie";
 import instance from "../../instance";
 
-export const getQuestionData = async (paperId, questionId) => {
+export const SubmitExam = async (paperId) => {
   const res = await instance({
-    url: `liveApp/student/getQuestion/${paperId}/qAttempt/${questionId}`,
+    url: `liveApp/student/submitExam/${paperId}`,
     method: "GET",
     headers: {
       Authorization: `Bearer ${Cookies.get("token")}`,
