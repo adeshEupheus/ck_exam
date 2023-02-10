@@ -11,10 +11,10 @@ import Snackbars from "../../Components/Material/Snackbar";
 import Loader from "../../Components/Material/Loader";
 import { GetOnlineExamData } from "../../apis/fetcher/GetOnlineExamData";
 import RevisionBar from "../../Components/Material/RevisionBar";
+import { GetPrsData } from "../../apis/fetcher/GetPrsData";
 
 const PersonalRevisionSheet = () => {
-  const [id, setId] = useState("FA1");
-  const [filter, setFilter] = useState("Revision for SA1");
+  const [id, setId] = useState("");
   const [loading, setLoading] = useState(false);
   const [snackbarMsg, setSnackbarMsg] = useState("");
   const [snackbarErr, setSnackbarErr] = useState(false);
@@ -41,41 +41,58 @@ const PersonalRevisionSheet = () => {
     cacheTime: 0,
     onSuccess: (data) => {
       console.log(data);
-      Object.entries(data.applicableExams).forEach(([key, value]) => {
-        console.log(key, value);
-        if (filter === value) {
-        }
-      });
+      setId(Object.keys(data.applicableExams)[0]);
+    },
+    refetchOnWindowFocus: false,
+  });
+
+  const {
+    data: PrsData,
+    isLoading: PrsLoading,
+    // refetch,
+    // isRefetching,
+  } = useQuery({
+    queryKey: ["Prs_data", id],
+    queryFn: () => GetPrsData(id),
+    enabled: !!id,
+    cacheTime: 0,
+    onSuccess: (data) => {
+      console.log(data);
     },
     refetchOnWindowFocus: false,
   });
 
   const handleDropDown = (value, type, item) => {
-    setFilter(value.value);
+    // console.log(value);
+    Object.entries(OnlineExamData.applicableExams).map((item) => {
+      if (value.value === item[1]) {
+        setId(item[0]);
+      }
+    });
   };
 
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
 
   const show = null;
 
-  const returnData = () => {
-    if (filter === "Select") {
-      return [];
-    }
+  // const returnData = () => {
+  //   if (filter === "Select") {
+  //     return [];
+  //   }
 
-    let code;
+  //   let code;
 
-    Object.entries(OnlineExamData.applicableExams).forEach(([key, value]) => {
-      console.log(key, value);
-      if (filter === value) {
-        code = key;
-      }
-    });
-    const newArray = OnlineExamData.onlineExamResponses.filter(
-      (item) => item.examName === code
-    );
-    return newArray;
-  };
+  //   Object.entries(OnlineExamData.applicableExams).forEach(([key, value]) => {
+  //     console.log(key, value);
+  //     if (filter === value) {
+  //       code = key;
+  //     }
+  //   });
+  //   const newArray = OnlineExamData.onlineExamResponses.filter(
+  //     (item) => item.examName === code
+  //   );
+  //   return newArray;
+  // };
 
   const sidebarRef = useRef();
 
@@ -161,22 +178,38 @@ const PersonalRevisionSheet = () => {
                     handleDropDown={handleDropDown}
                     data={Object.values(OnlineExamData.applicableExams).map(
                       (item) => {
-                        console.log(item);
+                        // console.log(item);
                         return { value: item };
                       }
                     )}
                     variant={"outlined"}
                     Name={"exam_setup"}
-                    defaultValue={{ value: filter }}
+                    defaultValue={{
+                      value: Object.values(OnlineExamData.applicableExams)[0],
+                    }}
                     size={"small"}
                   />
                 </div>
               )}
-              {isLoading ? (
+              {PrsLoading ? (
                 <Skeleton animation="wave" variant="rectangular" height={300} />
               ) : (
                 <>
-                  <div className="flex w-full gap-2 p-2 bg-slate-300">
+                  {PrsData[0]?.examPRSResponses.map((item) => {
+                    return (
+                      <div className="flex w-full gap-2 p-2 bg-slate-300">
+                        <div>
+                          <img
+                            src={item.subjectImagePath}
+                            alt="image"
+                            className=" w-[4rem] h-[5rem]  sm:mt-0  "
+                          ></img>
+                        </div>
+                        <RevisionBar data={item} />
+                      </div>
+                    );
+                  })}
+                  {/* <div className="flex w-full gap-2 p-2 bg-slate-300">
                     <div>
                       <img
                         src="https://classklap-assets.s3.ap-south-1.amazonaws.com/assets/reportCardIcons/Maths.svg"
@@ -185,8 +218,8 @@ const PersonalRevisionSheet = () => {
                       ></img>
                     </div>
                     <RevisionBar />
-                  </div>
-                  <div className="flex w-full gap-2 p-2 bg-slate-300">
+                  </div> */}
+                  {/* <div className="flex w-full gap-2 p-2 bg-slate-300">
                     <div>
                       <img
                         src="https://classklap-assets.s3.ap-south-1.amazonaws.com/assets/reportCardIcons/English.svg"
@@ -195,7 +228,7 @@ const PersonalRevisionSheet = () => {
                       ></img>
                     </div>
                     <RevisionBar />
-                  </div>
+                  </div> */}
                 </>
               )}
             </div>
