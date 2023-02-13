@@ -1,7 +1,7 @@
 import React from "react";
 import { Button } from "@mui/material";
 
-const RevisionBar = ({ data }) => {
+const RevisionBar = ({ data, mutationButton }) => {
   return (
     <div className="flex w-full gap-2 p-2">
       <div className="flex flex-col w-full">
@@ -21,7 +21,11 @@ const RevisionBar = ({ data }) => {
             VIEW PDF
           </Button>
         </a>
+
         <Button
+          onClick={() =>
+            mutationButton({ type: "markComplete", prsId: data.studentPrsId })
+          }
           variant="contained"
           className="w-full  sm:w-[200px] sm:h-[40px] !p-1 !text-xs sm:!text-base"
         >

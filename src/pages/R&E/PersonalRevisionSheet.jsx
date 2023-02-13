@@ -4,7 +4,7 @@ import Sidebar from "../../Components/Sidebar";
 import SwipeableTemporaryDrawer from "../../Components/Material/MaterialSidebar";
 import { Button, Skeleton, Switch } from "@mui/material";
 import { Menu } from "@mui/icons-material";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import Breadcrumbs from "../../Components/Material/BreadCrumbs";
 import SearchDropDown from "../../Components/Material/SearchDropDown";
 import Snackbars from "../../Components/Material/Snackbar";
@@ -12,6 +12,8 @@ import Loader from "../../Components/Material/Loader";
 import { GetOnlineExamData } from "../../apis/fetcher/GetOnlineExamData";
 import RevisionBar from "../../Components/Material/RevisionBar";
 import { GetPrsData } from "../../apis/fetcher/GetPrsData";
+import { MarkComplete } from "../../apis/mutation/markComplete";
+import ChildInfo from "../../Components/ChildInfo";
 
 const PersonalRevisionSheet = () => {
   const [id, setId] = useState("");
@@ -23,13 +25,6 @@ const PersonalRevisionSheet = () => {
   const switchRefs = useRef([]);
   switchRefs.current = [];
 
-  const addToRef = (el) => {
-    // console.count(el);
-    if (el && !switchRefs.current.includes(el)) {
-      switchRefs.current.push(el);
-    }
-  };
-
   const {
     data: OnlineExamData,
     isLoading,
@@ -40,7 +35,7 @@ const PersonalRevisionSheet = () => {
     queryFn: () => GetOnlineExamData(),
     cacheTime: 0,
     onSuccess: (data) => {
-      console.log(data);
+      // console.log(data);
       setId(Object.keys(data.applicableExams)[0]);
     },
     refetchOnWindowFocus: false,
@@ -57,7 +52,7 @@ const PersonalRevisionSheet = () => {
     enabled: !!id,
     cacheTime: 0,
     onSuccess: (data) => {
-      console.log(data);
+      // console.log(data);
     },
     refetchOnWindowFocus: false,
   });
@@ -95,6 +90,23 @@ const PersonalRevisionSheet = () => {
   // };
 
   const sidebarRef = useRef();
+
+  const mutation = useMutation({
+    mutationFn: async (data) => {
+      setLoading(true);
+      const res = await MarkComplete(data.prsId);
+      setLoading(false);
+      if (res.status === 200) {
+        setSnackbarErr(false);
+        setSnackbarMsg("Successful");
+        snackbarRef.current.openSnackbar();
+      } else {
+        setSnackbarErr(true);
+        setSnackbarMsg("Failed");
+        snackbarRef.current.openSnackbar();
+      }
+    },
+  });
 
   const handleSidebarCollapsed = () => {
     sidebarRef.current.openSidebar();
@@ -151,12 +163,7 @@ const PersonalRevisionSheet = () => {
           >
             <Menu className={"text-[#67748e]"} />
           </div>
-          <div className="w-full flex text-sm font-semibold bg-gray-200 text-gray-600 justify-end">
-            <div className="flex flex-col px-4 cursor-pointer py-4 items-end gap-[1px]">
-              <span>Vidyanidhi Public School</span>
-              <span>KA2015 [2022-2023]</span>
-            </div>
-          </div>
+          <ChildInfo />
 
           <div className="relative flex flex-col w-full justify-center items-start gap-4 bg-gray-200">
             <div className="sm:px-8 px-4 w-full flex flex-col gap-4 mb-4">
@@ -195,9 +202,12 @@ const PersonalRevisionSheet = () => {
                 <Skeleton animation="wave" variant="rectangular" height={300} />
               ) : (
                 <>
-                  {PrsData[0]?.examPRSResponses.map((item) => {
+                  {PrsData[0]?.examPRSResponses.map((item, i) => {
                     return (
-                      <div className="flex w-full gap-2 p-2 bg-slate-300">
+                      <div
+                        key={i}
+                        className="flex w-full gap-2 p-2 bg-slate-300"
+                      >
                         <div>
                           <img
                             src={item.subjectImagePath}
@@ -205,7 +215,10 @@ const PersonalRevisionSheet = () => {
                             className=" w-[4rem] h-[5rem]  sm:mt-0  "
                           ></img>
                         </div>
-                        <RevisionBar data={item} />
+                        <RevisionBar
+                          mutationButton={mutation.mutate}
+                          data={item}
+                        />
                       </div>
                     );
                   })}
