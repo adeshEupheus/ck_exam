@@ -21,10 +21,7 @@ import { Collapse } from "@mui/material";
 import { Link } from "react-router-dom";
 
 const SwipeableTemporaryDrawer = React.forwardRef((props, ref) => {
-  // const [eLearning, setELearning] = useState(false);
-  // const [setUp, setSetUp] = useState(false);
-  // const [assessment, setAssessment] = useState(false);
-  const [marsksEntry, setMarksEntry] = useState(false);
+  const [marsksEntry, setMarksEntry] = useState(true);
 
   const [isSchoolClicked, setIsSchoolClicked] = useState(
     props.show === 2 ? false : true

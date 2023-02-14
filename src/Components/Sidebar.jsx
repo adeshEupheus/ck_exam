@@ -19,7 +19,7 @@ import { Collapse } from "@mui/material";
 // import Loader from "./Material/Loader";
 
 const Sidebar = ({ sidebarCollapsed, highLight, show }) => {
-  const [marsksEntry, setMarksEntry] = useState(false);
+  const [marsksEntry, setMarksEntry] = useState(true);
 
   return (
     <div

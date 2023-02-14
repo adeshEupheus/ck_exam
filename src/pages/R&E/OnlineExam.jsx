@@ -43,7 +43,7 @@ const OnlineExam = () => {
     queryFn: () => GetOnlineExamData(),
     cacheTime: 0,
     onSuccess: (data) => {
-      console.log(data);
+      // console.log(data);
     },
     refetchOnWindowFocus: false,
   });
@@ -53,7 +53,7 @@ const OnlineExam = () => {
     // setFilter()
   };
 
-  console.log(OnlineExamData);
+  // console.log(OnlineExamData);
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
 
   const show = null;
@@ -170,7 +170,7 @@ const OnlineExam = () => {
                     handleDropDown={handleDropDown}
                     data={Object.values(OnlineExamData.applicableExams).map(
                       (item) => {
-                        console.log(item);
+                        // console.log(item);
                         return { value: item };
                       }
                     )}
