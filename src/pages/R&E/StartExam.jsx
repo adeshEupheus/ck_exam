@@ -18,7 +18,8 @@ import {
   Skeleton,
   Slide,
 } from "@mui/material";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useSearchParams } from "react-router-dom";
+import Cookies from "js-cookie";
 
 const StartExam = () => {
   const location = useLocation();
@@ -31,6 +32,14 @@ const StartExam = () => {
     hour: null,
     seconds: 0,
   });
+
+  const [queryParameters] = useSearchParams();
+
+  useLayoutEffect(() => {
+    if (queryParameters.get("auth")) {
+      Cookies.set("token", queryParameters.get("auth"));
+    }
+  }, []);
 
   const snackbarRef = useRef();
 

@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useLayoutEffect, useRef } from "react";
 import { useState } from "react";
 import Sidebar from "../../Components/Sidebar";
 import SwipeableTemporaryDrawer from "../../Components/Material/MaterialSidebar";
@@ -14,6 +14,8 @@ import RevisionBar from "../../Components/Material/RevisionBar";
 import { GetPrsData } from "../../apis/fetcher/GetPrsData";
 import { MarkComplete } from "../../apis/mutation/markComplete";
 import ChildInfo from "../../Components/ChildInfo";
+import { useSearchParams } from "react-router-dom";
+import Cookies from "js-cookie";
 
 const PersonalRevisionSheet = () => {
   const [id, setId] = useState("");
@@ -25,6 +27,17 @@ const PersonalRevisionSheet = () => {
   const switchRefs = useRef([]);
   switchRefs.current = [];
 
+  const [queryParameters] = useSearchParams();
+  const returnToken = () => {
+    return queryParameters.get("auth");
+  };
+
+  useLayoutEffect(() => {
+    if (queryParameters.get("auth")) {
+      Cookies.set("token", queryParameters.get("auth"));
+    }
+  }, []);
+
   const {
     data: OnlineExamData,
     isLoading,
@@ -32,7 +45,7 @@ const PersonalRevisionSheet = () => {
     isRefetching,
   } = useQuery({
     queryKey: ["online_exam_data"],
-    queryFn: () => GetOnlineExamData(),
+    queryFn: () => GetOnlineExamData(returnToken()),
     cacheTime: 0,
     onSuccess: (data) => {
       // console.log(data);
@@ -48,7 +61,7 @@ const PersonalRevisionSheet = () => {
     // isRefetching,
   } = useQuery({
     queryKey: ["Prs_data", id],
-    queryFn: () => GetPrsData(id),
+    queryFn: () => GetPrsData(id, returnToken()),
     enabled: !!id,
     cacheTime: 0,
     onSuccess: (data) => {
@@ -94,7 +107,7 @@ const PersonalRevisionSheet = () => {
   const mutation = useMutation({
     mutationFn: async (data) => {
       setLoading(true);
-      const res = await MarkComplete(data.prsId);
+      const res = await MarkComplete(data.prsId, returnToken());
       setLoading(false);
       if (res.status === 200) {
         setSnackbarErr(false);

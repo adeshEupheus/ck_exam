@@ -1,6 +1,8 @@
 import { useQuery } from "@tanstack/react-query";
-import React from "react";
+import Cookies from "js-cookie";
+import React, { useLayoutEffect } from "react";
 import { useState } from "react";
+import { useSearchParams } from "react-router-dom";
 import { GetChildList } from "../apis/fetcher/GetChildList";
 import Loader from "../Components/Material/Loader";
 import SelectChildCard from "../Components/SelectChildCard";
@@ -8,9 +10,20 @@ import SelectChildCard from "../Components/SelectChildCard";
 const SelectChild = () => {
   //   const [schoolList, setSchoolList] = useState({});
 
+  const [queryParameters] = useSearchParams();
+  const returnToken = () => {
+    return queryParameters.get("auth");
+  };
+
+  useLayoutEffect(() => {
+    if (queryParameters.get("auth")) {
+      Cookies.set("token", queryParameters.get("auth"));
+    }
+  }, []);
+
   const { data: ChildList, isLoading } = useQuery({
     queryKey: ["child_list"],
-    queryFn: () => GetChildList(),
+    queryFn: () => GetChildList(returnToken()),
   });
 
   return (

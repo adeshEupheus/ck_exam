@@ -1,12 +1,12 @@
 import Cookies from "js-cookie";
 import instance from "../../instance";
 
-export const GetOnlineExamData = async () => {
+export const GetOnlineExamData = async (token) => {
   const res = await instance({
     url: `liveApp/api/v1/onlineExams`,
     method: "GET",
     headers: {
-      Authorization: `Bearer ${Cookies.get("token")}`,
+      Authorization: `Bearer ${token ? token : Cookies.get("token")}`,
     },
   }).catch((err) => console.log(err));
 

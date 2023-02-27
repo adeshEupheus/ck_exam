@@ -17,9 +17,15 @@ import {
   Slide,
 } from "@mui/material";
 import Button from "@mui/material/Button";
-import { Link, useLocation, useParams } from "react-router-dom";
+import {
+  Link,
+  useLocation,
+  useParams,
+  useSearchParams,
+} from "react-router-dom";
 import { SetAnswer } from "../../apis/mutation/setAnswer";
 import QuestionSidebar from "../../Components/Material/QuestionSidebar";
+import Cookies from "js-cookie";
 let Logo = require("../../assets/classklap_logo.png");
 
 const ExamPage = () => {
@@ -32,11 +38,28 @@ const ExamPage = () => {
   const [seconds, setSeconds] = useState(null);
   const [attempted, setAttempted] = useState([]);
 
+  const [queryParameters] = useSearchParams();
+  const returnToken = () => {
+    return queryParameters.get("auth");
+  };
+
+  useLayoutEffect(() => {
+    if (queryParameters.get("auth")) {
+      Cookies.set("token", queryParameters.get("auth"));
+    }
+  }, []);
+
   const sidebarRef = useRef();
   // console.log(location);
   const mutation = useMutation({
     mutationFn: async (data) => {
-      await SetAnswer(data.id, data.questionId, data.qId, data.answer);
+      await SetAnswer(
+        data.id,
+        data.questionId,
+        data.qId,
+        data.answer,
+        returnToken()
+      );
     },
   });
 
@@ -47,7 +70,7 @@ const ExamPage = () => {
     isRefetching,
   } = useQuery({
     queryKey: ["all_questions"],
-    queryFn: () => GetExamQuestionData(id),
+    queryFn: () => GetExamQuestionData(id, returnToken()),
     cacheTime: 0,
     onSuccess: (data) => {
       setQuestioinId(data.questionAttempts[0]);
@@ -62,8 +85,9 @@ const ExamPage = () => {
     // isRefetching,
   } = useQuery({
     queryKey: ["question_data", questionId],
-    queryFn: () => getQuestionData(id, questionId),
+    queryFn: () => getQuestionData(id, questionId, returnToken()),
     cacheTime: 0,
+    // enabled: !!questionId,
     onSuccess: (data) => {
       console.log(data);
       // setQuestioinId(data.questionAttempts[0]);

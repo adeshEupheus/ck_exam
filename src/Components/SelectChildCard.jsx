@@ -1,15 +1,21 @@
 import Cookies from "js-cookie";
 import React from "react";
 import { useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { SelectChild } from "../apis/fetcher/SelectChild";
 import { authActions } from "../Store/auth";
 
 const SelectChildCard = ({ details }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
+  const [queryParameters] = useSearchParams();
+  const returnToken = () => {
+    return queryParameters.get("auth");
+  };
+
   const handleSelectSchool = async (id) => {
-    const token = await SelectChild(id);
+    const token = await SelectChild(id, returnToken());
     Cookies.set("token", token);
     dispatch(authActions.login());
     navigate("/revision_and_exam/online_exam");

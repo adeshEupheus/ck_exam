@@ -4,7 +4,7 @@ import { useQuery } from "@tanstack/react-query";
 import Cookies from "js-cookie";
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { GetChildInfo } from "../apis/fetcher/GetChildInfo";
 import { GetChildList } from "../apis/fetcher/GetChildList";
 import { SelectChild } from "../apis/fetcher/SelectChild";
@@ -15,9 +15,14 @@ const ChildInfo = () => {
   const [clicked, setClicked] = useState(false);
   const [loading, setLoading] = useState(false);
 
+  const [queryParameters] = useSearchParams();
+  const returnToken = () => {
+    return queryParameters.get("auth");
+  };
+
   const childInfo = useQuery({
     queryKey: ["child_info"],
-    queryFn: () => GetChildInfo(),
+    queryFn: () => GetChildInfo(returnToken()),
 
     cacheTime: 0,
     onSuccess: (data) => {
@@ -28,7 +33,7 @@ const ChildInfo = () => {
 
   const childList = useQuery({
     queryKey: ["child_list"],
-    queryFn: () => GetChildList(),
+    queryFn: () => GetChildList(returnToken()),
     cacheTime: 0,
     onSuccess: (data) => {
       // console.log(data);

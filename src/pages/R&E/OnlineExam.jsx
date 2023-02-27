@@ -19,8 +19,9 @@ import Snackbars from "../../Components/Material/Snackbar";
 import Loader from "../../Components/Material/Loader";
 import { GetOnlineExamData } from "../../apis/fetcher/GetOnlineExamData";
 import BasicButton from "../../Components/Material/Button";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import ChildInfo from "../../Components/ChildInfo";
+import Cookies from "js-cookie";
 
 const OnlineExam = () => {
   const [filter, setFilter] = useState("Select");
@@ -33,6 +34,11 @@ const OnlineExam = () => {
   const switchRefs = useRef([]);
   switchRefs.current = [];
 
+  const [queryParameters] = useSearchParams();
+  const returnToken = () => {
+    return queryParameters.get("auth");
+  };
+
   const {
     data: OnlineExamData,
     isLoading,
@@ -40,13 +46,19 @@ const OnlineExam = () => {
     isRefetching,
   } = useQuery({
     queryKey: ["online_exam_data"],
-    queryFn: () => GetOnlineExamData(),
+    queryFn: () => GetOnlineExamData(returnToken()),
     cacheTime: 0,
     onSuccess: (data) => {
       // console.log(data);
     },
     refetchOnWindowFocus: false,
   });
+
+  useLayoutEffect(() => {
+    if (queryParameters.get("auth")) {
+      Cookies.set("token", queryParameters.get("auth"));
+    }
+  }, []);
 
   const handleDropDown = (value, type, item) => {
     setFilter(value.value);
@@ -57,25 +69,6 @@ const OnlineExam = () => {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
 
   const show = null;
-
-  // const handleSwitchChange = (name, status, item) => {
-  //   // console.log(!item.locked);
-  //   const apiDataBody = {
-  //     grade: item.grade.name,
-  //     exam: id,
-  //     examName: item.examName.name,
-  //     duration: item.duration,
-  //     locked: !item.locked,
-  //     marksSyllabus: item.selectedMarksSyllabus.name,
-  //     questionPaperTypeDeliveryFormat: item.questionPaperDeliveryModeType.name,
-  //   };
-  //   lockMutation.mutate({
-  //     examType: id,
-  //     gradeId: apiDataBody.grade,
-  //     data: apiDataBody,
-  //     item,
-  //   });
-  // };
 
   const returnData = () => {
     if (filter === "Select") {
@@ -241,26 +234,17 @@ const OnlineExam = () => {
                               {item.formattedDateTime}
                             </h1>
                           </TableCell>
-                          {/* <TableCell align="center">
-                            <div
-                              onClick={() =>
-                                item.examActive
-                                  ? navigate("/revision_and_exam/start_exam")
-                                  : null
-                              }
-                            >
+                          {item.examName.includes("RSA") ? (
+                            <TakeExamButton item={item} />
+                          ) : (
+                            <div className="mt-3">
                               <BasicButton
                                 size={"small"}
-                                text={
-                                  item.examSubmitted
-                                    ? "Exam Submitted"
-                                    : "Take Exam"
-                                }
-                                disable={!item.examActive}
+                                disable={true}
+                                text={"View Question Paper"}
                               />
                             </div>
-                          </TableCell> */}
-                          <TakeExamButton item={item} />
+                          )}
                         </TableRow>
                       ))}
                     </TableBody>

@@ -1,10 +1,15 @@
 import * as React from "react";
 import Box from "@mui/material/Box";
 import SwipeableDrawer from "@mui/material/SwipeableDrawer";
-import logoLight from "../../assets/classklap_logo.png";
-import QuizIcon from "@mui/icons-material/Quiz";
+// import logoLight from "../../assets/classklap_logo.png";
+// import QuizIcon from "@mui/icons-material/Quiz";
 import { useState } from "react";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import {
+  Link,
+  useNavigate,
+  useParams,
+  useSearchParams,
+} from "react-router-dom";
 import { Button } from "@mui/material";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
@@ -21,6 +26,11 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 
 const QuestionSidebar = React.forwardRef((props, ref) => {
   let highLight = props.highLight;
+
+  const [queryParameters] = useSearchParams();
+  const returnToken = () => {
+    return queryParameters.get("auth");
+  };
 
   const [state, setState] = React.useState({
     right: false,
@@ -45,7 +55,7 @@ const QuestionSidebar = React.forwardRef((props, ref) => {
 
   const handleSubmit = async () => {
     setLoading(true);
-    const res = await SubmitExam(id);
+    const res = await SubmitExam(id, returnToken());
     navigate("/revision_and_exam/online_exam");
     // console.log(id);
     setLoading(false);

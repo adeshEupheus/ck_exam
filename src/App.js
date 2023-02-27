@@ -12,6 +12,8 @@ import { useSelector } from "react-redux";
 function App() {
   const isAuth = useSelector((state) => state.auth.user);
   const client = new QueryClient();
+  const queryParameters = new URLSearchParams(window.location.search);
+
   return (
     <div className="font-Roboto">
       <QueryClientProvider client={client}>
@@ -19,30 +21,100 @@ function App() {
           <Routes>
             <Route
               path="/login"
-              element={isAuth ? <OnlineExam /> : <Login />}
+              element={
+                queryParameters.get("auth") ? (
+                  <OnlineExam />
+                ) : isAuth ? (
+                  <OnlineExam />
+                ) : (
+                  <Login />
+                )
+              }
             />
-            <Route path="/" element={isAuth ? <OnlineExam /> : <Login />} />
+            <Route
+              path="/"
+              element={
+                queryParameters.get("auth") ? (
+                  <OnlineExam />
+                ) : isAuth ? (
+                  <OnlineExam />
+                ) : (
+                  <Login />
+                )
+              }
+            />
             <Route
               path="/revision_and_exam/online_exam"
-              element={isAuth ? <OnlineExam /> : <Login />}
+              element={
+                queryParameters.get("auth") ? (
+                  <OnlineExam />
+                ) : isAuth ? (
+                  <OnlineExam />
+                ) : (
+                  <Login />
+                )
+              }
             />
             <Route
               path="/revision_and_exam/start_exam"
-              element={isAuth ? <StartExam /> : <Login />}
+              element={
+                queryParameters.get("auth") ? (
+                  <StartExam />
+                ) : isAuth ? (
+                  <StartExam />
+                ) : (
+                  <Login />
+                )
+              }
             />
             <Route
               path="/revision_and_exam/exam_page/:id"
-              element={isAuth ? <ExamPage /> : <Login />}
+              element={
+                queryParameters.get("auth") ? (
+                  <ExamPage />
+                ) : isAuth ? (
+                  <ExamPage />
+                ) : (
+                  <Login />
+                )
+              }
             />
             <Route
               path="/select_child"
-              element={isAuth ? <SelectChild /> : <Login />}
+              element={
+                queryParameters.get("auth") ? (
+                  <SelectChild />
+                ) : isAuth ? (
+                  <SelectChild />
+                ) : (
+                  <Login />
+                )
+              }
             />
             <Route
               path="/revision_and_exam/prs"
-              element={isAuth ? <PersonalRevisionSheet /> : <Login />}
+              element={
+                queryParameters.get("auth") ? (
+                  <PersonalRevisionSheet />
+                ) : isAuth ? (
+                  <PersonalRevisionSheet />
+                ) : (
+                  <Login />
+                )
+              }
             />
-            <Route path="*" element={isAuth ? <PageNotFound /> : <Login />} />
+            <Route
+              path="*"
+              element={
+                queryParameters.get("auth") ? (
+                  <PageNotFound />
+                ) : isAuth ? (
+                  <PageNotFound />
+                ) : (
+                  <Login />
+                )
+              }
+            />
           </Routes>
         </BrowserRouter>
       </QueryClientProvider>

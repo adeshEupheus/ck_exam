@@ -1,12 +1,12 @@
 import Cookies from "js-cookie";
 import instance from "../../instance";
 
-export const MarkComplete = async (prsId) => {
+export const MarkComplete = async (prsId, token) => {
   const res = await instance({
     url: `liveApp/student/markPRSComplete/${prsId}`,
     method: "PUT",
     headers: {
-      Authorization: `Bearer ${Cookies.get("token")}`,
+      Authorization: `Bearer ${token ? token : Cookies.get("token")}`,
     },
   });
   return res;
