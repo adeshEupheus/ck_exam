@@ -81,7 +81,7 @@ const ChildInfo = () => {
           </div>
           <div className="flex flex-col w-fit mr-3">
             <Collapse in={clicked}>
-              <div className="h-[5rem] overflow-auto bg-slate-100 shadow-lg">
+              {/* <div className="h-[5rem] overflow-auto bg-slate-100 shadow-lg">
                 {childList.data.map((item, i) => {
                   return (
                     <div
@@ -96,7 +96,7 @@ const ChildInfo = () => {
                     </div>
                   );
                 })}
-              </div>
+              </div> */}
               <button
                 className="bg-slate-100 rounded-b-md shadow-lg py-4 flex w-full px-4 mr-8 gap-2"
                 onClick={handleLogout}
