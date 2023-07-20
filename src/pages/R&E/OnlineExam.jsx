@@ -22,6 +22,7 @@ import BasicButton from "../../Components/Material/Button";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import ChildInfo from "../../Components/ChildInfo";
 import Cookies from "js-cookie";
+import instance from "../../instance";
 
 const OnlineExam = () => {
   const [filter, setFilter] = useState("Select");
@@ -237,10 +238,32 @@ const OnlineExam = () => {
                           {item.examName.includes("RSA") ? (
                             <TakeExamButton item={item} />
                           ) : (
-                            <div className="mt-3">
+                            <div
+                              className="mt-3"
+                              onClick={async () => {
+                                if (item?.pdfUrl) {
+                                  const code = item?.pdfUrl.split("/")[6];
+
+                                  const res = await instance({
+                                    url: `liveApp/api/v1/downloadQuestionPaperForSM/${code}`,
+                                    method: "GET",
+                                    headers: {
+                                      Authorization: `Bearer ${
+                                        returnToken()
+                                          ? returnToken()
+                                          : Cookies.get("token")
+                                      }`,
+                                    },
+                                  }).catch((err) => console.log(err));
+                                  if (res.data.success) {
+                                    window.open(res.data.PdfUrl, "_blank");
+                                  }
+                                }
+                              }}
+                            >
                               <BasicButton
                                 size={"small"}
-                                disable={true}
+                                disable={!item?.pdfUrl}
                                 text={"View Question Paper"}
                               />
                             </div>
