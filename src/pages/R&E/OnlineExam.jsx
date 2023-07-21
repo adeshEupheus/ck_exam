@@ -235,7 +235,8 @@ const OnlineExam = () => {
                               {item.formattedDateTime}
                             </h1>
                           </TableCell>
-                          {item.examName.includes("RSA") ? (
+                          {item.examName.includes("RSA") &&
+                          item?.deliveryMode === "LEARNING_APP" ? (
                             <TakeExamButton item={item} />
                           ) : (
                             <div
