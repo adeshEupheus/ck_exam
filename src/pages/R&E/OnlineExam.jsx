@@ -264,7 +264,7 @@ const OnlineExam = () => {
                             >
                               <BasicButton
                                 size={"small"}
-                                disable={!item?.pdfUrl}
+                                disable={!item?.pdfUrl || item?.examOver}
                                 text={"View Question Paper"}
                               />
                             </div>
