@@ -235,7 +235,8 @@ const OnlineExam = () => {
                               {item.formattedDateTime}
                             </h1>
                           </TableCell>
-                          {item.examName.includes("RSA") ? (
+                          {item.examName.includes("RSA") &&
+                          item?.deliveryMode === "LEARNING_APP" ? (
                             <TakeExamButton item={item} />
                           ) : (
                             <div
@@ -263,7 +264,7 @@ const OnlineExam = () => {
                             >
                               <BasicButton
                                 size={"small"}
-                                disable={!item?.pdfUrl}
+                                disable={!item?.pdfUrl || item?.examOver}
                                 text={"View Question Paper"}
                               />
                             </div>
