@@ -43,6 +43,18 @@ function App() {
         <BrowserRouter>
           <Routes>
             <Route
+              path="/"
+              element={
+                queryParameters.get("auth") ? (
+                  <Login />
+                ) : isAuth ? (
+                  <Login />
+                ) : (
+                  <Login />
+                )
+              }
+            />
+            <Route
               path="/login"
               element={
                 // queryParameters.get("auth") ? (
@@ -54,18 +66,6 @@ function App() {
                 // )
               }
             />
-            {/* <Route
-              path="/"
-              element={
-                queryParameters.get("auth") ? (
-                  <Home />
-                ) : isAuth ? (
-                  <Home />
-                ) : (
-                  <Login />
-                )
-              }
-            /> */}
 
             <Route
               path="/revision_and_exam/online_exam"
