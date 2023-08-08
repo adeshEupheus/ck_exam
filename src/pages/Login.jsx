@@ -70,7 +70,7 @@ const Login = () => {
             dispatch(authActions.login());
             if (type === "GUARDIAN") {
               navigate("/select_child");
-            } else {
+            } else if (type === "TEACHER") {
               navigate("/marks_entry/overview");
             }
           }
