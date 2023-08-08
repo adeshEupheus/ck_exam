@@ -13,6 +13,7 @@ import { useLayoutEffect } from "react";
 import Cookies from "js-cookie";
 import instance from "./instance";
 import SubjectMarksEntry from "./pages/TeacherMarksEntry/SubjectMarksEntry";
+import Home from "./pages/Home";
 
 function App() {
   const isAuth = useSelector((state) => state.auth.user);
@@ -30,6 +31,7 @@ function App() {
           },
         }).catch((err) => console.log(err));
         Cookies.set("user", res.data);
+        Cookies.set("token", token);
       };
       registerToken();
     }
@@ -43,27 +45,27 @@ function App() {
             <Route
               path="/login"
               element={
-                queryParameters.get("auth") ? (
-                  <OnlineExam />
-                ) : isAuth ? (
-                  <OnlineExam />
-                ) : (
-                  <Login />
-                )
+                // queryParameters.get("auth") ? (
+                //   <Home />
+                // ) : isAuth ? (
+                //   <Home />
+                // ) : (
+                <Login />
+                // )
               }
             />
-            <Route
+            {/* <Route
               path="/"
               element={
                 queryParameters.get("auth") ? (
-                  <OnlineExam />
+                  <Home />
                 ) : isAuth ? (
-                  <OnlineExam />
+                  <Home />
                 ) : (
                   <Login />
                 )
               }
-            />
+            /> */}
             <Route
               path="/revision_and_exam/online_exam"
               element={
