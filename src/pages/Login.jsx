@@ -28,7 +28,7 @@ const Login = () => {
 
   const mutation = useMutation({
     mutationFn: async (value) => {
-      if (value.name === "sendOtp") {
+      if (value.name === "sendOtp" && type && phone.toString().length === 10) {
         setLoading(true);
         let data = {
           phone: phone,
@@ -66,8 +66,13 @@ const Login = () => {
           });
           if (res.success === "true") {
             Cookies.set("token", res.token);
+            Cookies.set("user", type);
             dispatch(authActions.login());
-            navigate("/select_child");
+            if (type === "GUARDIAN") {
+              navigate("/select_child");
+            } else {
+              navigate("/marks_entry/overview");
+            }
           }
 
           setLoading(false);
@@ -129,6 +134,7 @@ const Login = () => {
               <input
                 onChange={(e) => changePhone(e.target.value)}
                 type="number"
+                id="phoneNumber"
                 value={phone}
                 className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
               />

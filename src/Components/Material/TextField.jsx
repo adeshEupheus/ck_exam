@@ -11,11 +11,18 @@ export default function BasicTextFields({
   defaultValue,
   handleOnBlur,
   disable,
+  handleChange,
+  name,
 }) {
   //   const onBlur = (e) => {
   //     handleOnBlur(e.target.value, item);
   //     // console.log(e.target.value);
   //   };
+  const onChange = (e) => {
+    if (handleChange) {
+      handleChange({ val: e.target.value, name });
+    }
+  };
 
   return (
     <TextField
@@ -24,6 +31,7 @@ export default function BasicTextFields({
       disabled={disable}
       type={type}
       defaultValue={defaultValue}
+      onChange={onChange}
       size="small"
       //   onBlur={onBlur}
       // value={value}

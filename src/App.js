@@ -8,11 +8,32 @@ import PageNotFound from "./pages/PageNotFount";
 import PersonalRevisionSheet from "./pages/R&E/PersonalRevisionSheet";
 import SelectChild from "./pages/SelectChild";
 import { useSelector } from "react-redux";
+import MarksEntryOverview from "./pages/TeacherMarksEntry/Overview";
+import { useLayoutEffect } from "react";
+import Cookies from "js-cookie";
+import instance from "./instance";
+import SubjectMarksEntry from "./pages/TeacherMarksEntry/SubjectMarksEntry";
 
 function App() {
   const isAuth = useSelector((state) => state.auth.user);
   const client = new QueryClient();
   const queryParameters = new URLSearchParams(window.location.search);
+  useLayoutEffect(() => {
+    const token = queryParameters.get("auth");
+    if (token) {
+      const registerToken = async () => {
+        const res = await instance({
+          url: `v1/login/validateToken`,
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${token ? token : Cookies.get("token")}`,
+          },
+        }).catch((err) => console.log(err));
+        Cookies.set("user", res.data);
+      };
+      registerToken();
+    }
+  }, []);
 
   return (
     <div className="font-Roboto">
@@ -50,6 +71,30 @@ function App() {
                   <OnlineExam />
                 ) : isAuth ? (
                   <OnlineExam />
+                ) : (
+                  <Login />
+                )
+              }
+            />
+            <Route
+              path="/marks_entry/overview"
+              element={
+                queryParameters.get("auth") ? (
+                  <MarksEntryOverview />
+                ) : isAuth ? (
+                  <MarksEntryOverview />
+                ) : (
+                  <Login />
+                )
+              }
+            />
+            <Route
+              path="/marks_entry/subject_marks_entry"
+              element={
+                queryParameters.get("auth") ? (
+                  <SubjectMarksEntry />
+                ) : isAuth ? (
+                  <SubjectMarksEntry />
                 ) : (
                   <Login />
                 )
