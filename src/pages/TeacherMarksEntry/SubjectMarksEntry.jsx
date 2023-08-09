@@ -70,6 +70,7 @@ const SubjectMarksEntry = () => {
   }, []);
 
   const handleChangePage = (event, newPage) => {
+    refetch();
     setPage(newPage);
   };
 
@@ -90,7 +91,7 @@ const SubjectMarksEntry = () => {
           ],
           subject: subjectId,
         };
-        setLoading(true);
+        // setLoading(true);
         const res2 = await UpdateAttendance(
           AttendanceData,
           returnToken()
@@ -104,8 +105,8 @@ const SubjectMarksEntry = () => {
         //   setSnackbarMsg(res2.message);
         //   snackbarRef.current.openSnackbar();
         // }
-        refetch();
-        setLoading(false);
+        // refetch();
+        // setLoading(false);
 
         break;
       case "marks":
