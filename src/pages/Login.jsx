@@ -1,7 +1,7 @@
 import { Tooltip } from "@mui/material";
 import { useMutation } from "@tanstack/react-query";
 import Cookies from "js-cookie";
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import OtpInput from "react-otp-input";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
@@ -25,6 +25,10 @@ const Login = () => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const snackbarRef = useRef();
+
+  useEffect(() => {
+    navigate("/login");
+  }, []);
 
   const mutation = useMutation({
     mutationFn: async (value) => {

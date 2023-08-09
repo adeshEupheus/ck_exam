@@ -46,26 +46,15 @@ function App() {
               path="/"
               element={
                 queryParameters.get("auth") ? (
-                  <Login />
+                  <Home />
                 ) : isAuth ? (
-                  <Login />
+                  <Home />
                 ) : (
                   <Login />
                 )
               }
             />
-            <Route
-              path="/login"
-              element={
-                // queryParameters.get("auth") ? (
-                //   <Home />
-                // ) : isAuth ? (
-                //   <Home />
-                // ) : (
-                <Login />
-                // )
-              }
-            />
+            <Route path="/login" element={<Login />} />
 
             <Route
               path="/revision_and_exam/online_exam"

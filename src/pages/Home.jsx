@@ -2,6 +2,7 @@ import Cookies from "js-cookie";
 import React, { useEffect, useLayoutEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import instance from "../instance";
+import Loader from "../Components/Material/Loader";
 // import MarksEntryOverview from "./TeacherMarksEntry/Overview";
 // import OnlineExam from "./R&E/OnlineExam";
 
@@ -11,6 +12,8 @@ const Home = () => {
   const navigate = useNavigate();
 
   const routeWhenTokenExist = async () => {
+    console.log("without cookies");
+
     const res = await instance({
       url: `v1/login/validateToken`,
       method: "GET",
@@ -26,23 +29,30 @@ const Home = () => {
   };
 
   const routeWithCookie = async () => {
+    console.log("with cookies");
     if (Cookies.get("user") === "TEACHER") {
-      navigate("/marks_entry/overview");
+      navigate("marks_entry/overview");
     } else {
       navigate("/revision_and_exam/online_exam");
     }
-    // window.location.reload();
   };
 
   useLayoutEffect(() => {
-    console.log("adsjf");
     if (token) {
-      routeWhenTokenExist();
+      setTimeout(() => {
+        routeWhenTokenExist();
+      }, 200);
     } else {
-      routeWithCookie();
+      setTimeout(() => {
+        routeWithCookie();
+      }, 200);
     }
   }, []);
-  return <div></div>;
+  return (
+    <div>
+      <Loader loading={true} />
+    </div>
+  );
 };
 
 export default Home;
