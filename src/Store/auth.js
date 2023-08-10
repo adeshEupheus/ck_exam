@@ -17,7 +17,6 @@ const authSlice = createSlice({
       state.user = false;
       state.id = false;
       Cookies.remove("token");
-      Cookies.remove("user");
     },
   },
 });

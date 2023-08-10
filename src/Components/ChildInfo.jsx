@@ -6,11 +6,10 @@ import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { GetChildInfo } from "../apis/fetcher/GetChildInfo";
-// import { GetChildList } from "../apis/fetcher/GetChildList";
+import { GetChildList } from "../apis/fetcher/GetChildList";
 import { SelectChild } from "../apis/fetcher/SelectChild";
 import { authActions } from "../Store/auth";
 import Loader from "./Material/Loader";
-import { GetTeacherInfo } from "../apis/fetcher/GetTeacherInfo";
 
 const ChildInfo = () => {
   const [clicked, setClicked] = useState(false);
@@ -23,10 +22,7 @@ const ChildInfo = () => {
 
   const childInfo = useQuery({
     queryKey: ["child_info"],
-    queryFn: () =>
-      Cookies?.get("user") === "TEACHER"
-        ? GetTeacherInfo(returnToken())
-        : GetChildInfo(returnToken()),
+    queryFn: () => GetChildInfo(returnToken()),
 
     cacheTime: 0,
     onSuccess: (data) => {
@@ -35,15 +31,15 @@ const ChildInfo = () => {
     refetchOnWindowFocus: false,
   });
 
-  // const childList = useQuery({
-  //   queryKey: ["child_list"],
-  //   queryFn: () => GetChildList(returnToken()),
-  //   cacheTime: 0,
-  //   onSuccess: (data) => {
-  //     // console.log(data);
-  //   },
-  //   refetchOnWindowFocus: false,
-  // });
+  const childList = useQuery({
+    queryKey: ["child_list"],
+    queryFn: () => GetChildList(returnToken()),
+    cacheTime: 0,
+    onSuccess: (data) => {
+      // console.log(data);
+    },
+    refetchOnWindowFocus: false,
+  });
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -63,7 +59,7 @@ const ChildInfo = () => {
 
   return (
     <>
-      {childInfo.isLoading ? (
+      {childInfo.isLoading || childList.isLoading ? (
         <div className="w-full flex flex-col gap-1 items-end">
           <Skeleton animation="wave" variant="text" width={200} />
           <Skeleton animation="wave" variant="text" width={200} />

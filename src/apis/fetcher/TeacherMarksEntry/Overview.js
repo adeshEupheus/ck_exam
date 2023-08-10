@@ -1,26 +1,19 @@
-import Cookies from "js-cookie";
-import instance from "../../../instance";
+import instance from "../../instance";
 
-export const GetExamConfigData = async () => {
+export const GetDropDownData = async () => {
   const res = await instance({
-    url: `liveApp/api/v1/getMarksEntryData`,
+    url: `https://livesbel.xamcheck.com/app/liveApp/api/v1/getMarksEntryData`,
     method: "GET",
-    headers: {
-      Authorization: `Bearer ${Cookies.get("token")}`,
-    },
   }).catch((err) => console.log(err));
-  console.log(res.data);
+
   return res.data;
 };
 
-export const GetExamOverviewData = async (examId, sectionId) => {
+export const GetMarksEntryOverviewData = async (examId, sectionId) => {
   const res = await instance({
-    url: `liveApp/api/v1/marksEntryOverviewData?examType=${examId}&sectionId=${sectionId}`,
+    url: `https://livesbel.xamcheck.com/app/liveApp/api/v1/marksEntryOverviewData?examType=${examId}&sectionId=${sectionId}`,
     method: "GET",
-    headers: {
-      Authorization: `Bearer ${Cookies.get("token")}`,
-    },
   }).catch((err) => console.log(err));
-  console.log(res.data);
+
   return res.data;
 };

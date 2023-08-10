@@ -19,9 +19,7 @@ const SwitchLabels = React.forwardRef((props, ref) => {
 
   const change = (e) => {
     // console.log(props.key);
-    if (value === false) {
-      props.handleSwitchChange(props.name, e.target.checked, props.item);
-    }
+    props.handleSwitchChange(props.name, e.target.checked, props.item);
   };
   return <Switch size="small" checked={value} onChange={change} />;
 });
