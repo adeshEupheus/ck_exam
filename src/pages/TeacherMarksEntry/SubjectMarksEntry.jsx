@@ -54,7 +54,6 @@ const SubjectMarksEntry = () => {
     attendance: "All",
   });
   const [total, setTotal] = useState(0);
-  // temp commit
 
   const [snackbarMsg, setSnackbarMsg] = useState("");
   const [snackbarErr, setSnackbarErr] = useState(false);
