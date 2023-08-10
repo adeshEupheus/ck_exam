@@ -1,0 +1,58 @@
+import Cookies from "js-cookie";
+import React, { useEffect, useLayoutEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import instance from "../instance";
+import Loader from "../Components/Material/Loader";
+// import MarksEntryOverview from "./TeacherMarksEntry/Overview";
+// import OnlineExam from "./R&E/OnlineExam";
+
+const Home = () => {
+  const queryParameters = new URLSearchParams(window.location.search);
+  const token = queryParameters.get("auth");
+  const navigate = useNavigate();
+
+  const routeWhenTokenExist = async () => {
+    console.log("without cookies");
+
+    const res = await instance({
+      url: `v1/login/validateToken`,
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${token ? token : Cookies.get("token")}`,
+      },
+    }).catch((err) => console.log(err));
+    if (res.data === "TEACHER") {
+      navigate("/marks_entry/overview");
+    } else {
+      navigate("/revision_and_exam/online_exam");
+    }
+  };
+
+  const routeWithCookie = async () => {
+    console.log("with cookies");
+    if (Cookies.get("user") === "TEACHER") {
+      navigate("marks_entry/overview");
+    } else {
+      navigate("/revision_and_exam/online_exam");
+    }
+  };
+
+  useLayoutEffect(() => {
+    if (token) {
+      setTimeout(() => {
+        routeWhenTokenExist();
+      }, 200);
+    } else {
+      setTimeout(() => {
+        routeWithCookie();
+      }, 200);
+    }
+  }, []);
+  return (
+    <div>
+      <Loader loading={true} />
+    </div>
+  );
+};
+
+export default Home;

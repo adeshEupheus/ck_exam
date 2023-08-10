@@ -8,11 +8,34 @@ import PageNotFound from "./pages/PageNotFount";
 import PersonalRevisionSheet from "./pages/R&E/PersonalRevisionSheet";
 import SelectChild from "./pages/SelectChild";
 import { useSelector } from "react-redux";
+import MarksEntryOverview from "./pages/TeacherMarksEntry/Overview";
+import { useLayoutEffect } from "react";
+import Cookies from "js-cookie";
+import instance from "./instance";
+import SubjectMarksEntry from "./pages/TeacherMarksEntry/SubjectMarksEntry";
+import Home from "./pages/Home";
 
 function App() {
   const isAuth = useSelector((state) => state.auth.user);
   const client = new QueryClient();
   const queryParameters = new URLSearchParams(window.location.search);
+  useLayoutEffect(() => {
+    const token = queryParameters.get("auth");
+    if (token) {
+      const registerToken = async () => {
+        const res = await instance({
+          url: `v1/login/validateToken`,
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${token ? token : Cookies.get("token")}`,
+          },
+        }).catch((err) => console.log(err));
+        Cookies.set("user", res.data);
+        Cookies.set("token", token);
+      };
+      registerToken();
+    }
+  }, []);
 
   return (
     <div className="font-Roboto">
@@ -20,29 +43,19 @@ function App() {
         <BrowserRouter>
           <Routes>
             <Route
-              path="/login"
-              element={
-                queryParameters.get("auth") ? (
-                  <OnlineExam />
-                ) : isAuth ? (
-                  <OnlineExam />
-                ) : (
-                  <Login />
-                )
-              }
-            />
-            <Route
               path="/"
               element={
                 queryParameters.get("auth") ? (
-                  <OnlineExam />
+                  <Home />
                 ) : isAuth ? (
-                  <OnlineExam />
+                  <Home />
                 ) : (
                   <Login />
                 )
               }
             />
+            <Route path="/login" element={<Login />} />
+
             <Route
               path="/revision_and_exam/online_exam"
               element={
@@ -50,6 +63,30 @@ function App() {
                   <OnlineExam />
                 ) : isAuth ? (
                   <OnlineExam />
+                ) : (
+                  <Login />
+                )
+              }
+            />
+            <Route
+              path="/marks_entry/overview"
+              element={
+                queryParameters.get("auth") ? (
+                  <MarksEntryOverview />
+                ) : isAuth ? (
+                  <MarksEntryOverview />
+                ) : (
+                  <Login />
+                )
+              }
+            />
+            <Route
+              path="/marks_entry/subject_marks_entry"
+              element={
+                queryParameters.get("auth") ? (
+                  <SubjectMarksEntry />
+                ) : isAuth ? (
+                  <SubjectMarksEntry />
                 ) : (
                   <Login />
                 )
