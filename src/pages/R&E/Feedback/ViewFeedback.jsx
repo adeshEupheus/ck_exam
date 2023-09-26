@@ -186,7 +186,8 @@ const ViewFeedback = () => {
                 />
               ) : FeedbackData?.exams.length === 0 ? (
                 <p className="font-semibold text-xl w-full flex justify-center">
-                  No Data Available
+                  Your results will be released by the school, please contact
+                  your school
                 </p>
               ) : (
                 <iframe

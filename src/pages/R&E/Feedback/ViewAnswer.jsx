@@ -117,9 +117,6 @@ const ViewAnswerKey = () => {
       const element = Object.values(AnswerKeyData ? AnswerKeyData : {})[i];
       if (element.subject === s) {
         url = element?.answerKeyPdfUrl;
-        if (!element.attempted) {
-          url = null;
-        }
         break;
       }
     }
