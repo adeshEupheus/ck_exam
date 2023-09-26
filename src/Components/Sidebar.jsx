@@ -118,11 +118,8 @@ const Sidebar = ({ sidebarCollapsed, highLight, show }) => {
                   className={`flex items-center transition-all ease-linear duration-100 mr-8 ml-6 group hover:bg-gray-600 rounded-md group px-1 cursor-pointer`}
                   onClick={() => setFeedback(!feedback)}
                 >
-                  <Feedback
-                    className={`!transition-all !ease-linear group-hover:!text-gray-100 !duration-200 text-gray-600`}
-                  />
                   <h1
-                    className={`pl-9 text-gray-600 transition-all ease-linear group-hover:text-gray-100 text-sm font-semibold duration-200  py-2 cursor-pointer`}
+                    className={`pl-11 text-gray-600 transition-all ease-linear group-hover:text-gray-100 text-sm font-semibold duration-200  py-2 cursor-pointer`}
                   >
                     Feedback
                   </h1>
