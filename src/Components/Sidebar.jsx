@@ -1,6 +1,11 @@
 import React, { useState } from "react";
 
-import { Devices, Circle, KeyboardArrowDown } from "@mui/icons-material";
+import {
+  Devices,
+  Circle,
+  KeyboardArrowDown,
+  Feedback,
+} from "@mui/icons-material";
 import { Link } from "react-router-dom";
 import logoLight from "../assets/classklap_logo.png";
 import { Collapse } from "@mui/material";
@@ -9,6 +14,7 @@ import Cookies from "js-cookie";
 
 const Sidebar = ({ sidebarCollapsed, highLight, show }) => {
   const [marsksEntry, setMarksEntry] = useState(true);
+  const [feedback, setFeedback] = useState(false);
 
   return (
     <div
@@ -27,7 +33,7 @@ const Sidebar = ({ sidebarCollapsed, highLight, show }) => {
           />
         </div>
         {Cookies.get("user") === "GUARDIAN" ? (
-          <Link>
+          <div>
             <aside
               onClick={() => setMarksEntry(!marsksEntry)}
               className={`pl-6 pr-1 py-2 mt-[1rem] flex justify-between gap-4 ${
@@ -107,9 +113,81 @@ const Sidebar = ({ sidebarCollapsed, highLight, show }) => {
                     </h1>
                   </div>
                 </Link>
+                {/* <Link> */}
+                <div
+                  className={`flex items-center transition-all ease-linear duration-100 mr-8 ml-6 group hover:bg-gray-600 rounded-md group px-1 cursor-pointer`}
+                  onClick={() => setFeedback(!feedback)}
+                >
+                  <Feedback
+                    className={`!transition-all !ease-linear group-hover:!text-gray-100 !duration-200 text-gray-600`}
+                  />
+                  <h1
+                    className={`pl-9 text-gray-600 transition-all ease-linear group-hover:text-gray-100 text-sm font-semibold duration-200  py-2 cursor-pointer`}
+                  >
+                    Feedback
+                  </h1>
+                  <div className="w-full flex justify-end">
+                    <div
+                      className={`transition-all duration-200  ease-linear ${
+                        feedback ? null : "-rotate-90"
+                      }`}
+                    >
+                      <KeyboardArrowDown
+                        className={`text-gray-600 group-hover:!text-gray-100`}
+                      />
+                    </div>
+                  </div>
+                </div>
+                {/* </Link> */}
+                <Collapse in={feedback}>
+                  <Link to={`/feedback/view_feedback`}>
+                    <div
+                      className={`flex items-center transition-all ease-linear duration-100 mr-8 ml-8 group `}
+                    >
+                      <Circle
+                        className={`!text-[.7rem] !transition-all !ease-linear !duration-200 ${
+                          highLight === "schools"
+                            ? "text-white"
+                            : "text-gray-600"
+                        } `}
+                      />
+                      <h1
+                        className={`pl-9 ${
+                          highLight === "schools"
+                            ? "text-white"
+                            : "text-gray-600"
+                        } transition-all ease-linear text-sm font-semibold duration-200  py-2 cursor-pointer`}
+                      >
+                        View Feedback
+                      </h1>
+                    </div>
+                  </Link>
+                  <Link to="/feedback/view_answer_key">
+                    <div
+                      className={`flex items-center transition-all ease-linear duration-100 mr-8 ml-8 group `}
+                    >
+                      <Circle
+                        className={`!text-[.7rem] !transition-all !ease-linear !duration-200 ${
+                          highLight === "schools"
+                            ? "text-white"
+                            : "text-gray-600"
+                        } `}
+                      />
+                      <h1
+                        className={`pl-9 ${
+                          highLight === "schools"
+                            ? "text-white"
+                            : "text-gray-600"
+                        } transition-all ease-linear text-sm font-semibold duration-200  py-2 cursor-pointer`}
+                      >
+                        View Answer Key
+                      </h1>
+                    </div>
+                  </Link>
+                </Collapse>
               </div>
             </Collapse>
-          </Link>
+          </div>
         ) : (
           <Link>
             <aside

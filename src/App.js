@@ -14,6 +14,8 @@ import Cookies from "js-cookie";
 import instance from "./instance";
 import SubjectMarksEntry from "./pages/TeacherMarksEntry/SubjectMarksEntry";
 import Home from "./pages/Home";
+import ViewFeedback from "./pages/R&E/Feedback/ViewFeedback";
+import ViewAnswerKey from "./pages/R&E/Feedback/ViewAnswer";
 
 function App() {
   const isAuth = useSelector((state) => state.auth.user);
@@ -135,6 +137,31 @@ function App() {
                   <PersonalRevisionSheet />
                 ) : isAuth ? (
                   <PersonalRevisionSheet />
+                ) : (
+                  <Login />
+                )
+              }
+            />
+            {/* feedback routes */}
+            <Route
+              path="/feedback/view_feedback"
+              element={
+                queryParameters.get("auth") ? (
+                  <ViewFeedback />
+                ) : isAuth ? (
+                  <ViewFeedback />
+                ) : (
+                  <Login />
+                )
+              }
+            />
+            <Route
+              path="/feedback/view_answer_key"
+              element={
+                queryParameters.get("auth") ? (
+                  <ViewAnswerKey />
+                ) : isAuth ? (
+                  <ViewAnswerKey />
                 ) : (
                   <Login />
                 )
