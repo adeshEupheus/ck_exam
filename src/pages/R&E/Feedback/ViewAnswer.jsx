@@ -211,6 +211,12 @@ const ViewAnswerKey = () => {
                   />
                 </div>
               )}
+              {AnswerKeyData && Object.keys(AnswerKeyData).length === 0 ? (
+                <p className="font-semibold text-xl w-full flex justify-center">
+                  Your results will be released by the school, please contact
+                  your school
+                </p>
+              ) : null}
               {AnswerKeyLoading ? (
                 <Skeleton animation="wave" variant="rectangular" height={300} />
               ) : q && s ? (
